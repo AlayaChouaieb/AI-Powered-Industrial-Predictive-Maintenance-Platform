@@ -1,0 +1,4 @@
+status,rows,failures,failure_rate
+healthy,1801,7,0.0039
+warning,136,5,0.0368
+critical,63,56,0.8889

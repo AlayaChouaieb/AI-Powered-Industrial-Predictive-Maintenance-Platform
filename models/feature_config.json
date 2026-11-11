@@ -1,0 +1,60 @@
+{
+  "input_columns": [
+    "product_type",
+    "air_temperature_k",
+    "process_temperature_k",
+    "rotational_speed_rpm",
+    "torque_nm",
+    "tool_wear_min"
+  ],
+  "product_types": [
+    "L",
+    "M",
+    "H"
+  ],
+  "classes_order": [
+    "none",
+    "TWF",
+    "HDF",
+    "PWF",
+    "OSF",
+    "other"
+  ],
+  "classifier_model_class_order": [
+    "HDF",
+    "OSF",
+    "PWF",
+    "TWF",
+    "none",
+    "other"
+  ],
+  "classifier_feature_set": "rf-engineered-leaf1",
+  "anomaly_feature_set": "engineered",
+  "valid_ranges": {
+    "air_temperature_k": [
+      250.0,
+      400.0
+    ],
+    "process_temperature_k": [
+      250.0,
+      450.0
+    ],
+    "rotational_speed_rpm": [
+      1.0,
+      10000.0
+    ],
+    "torque_nm": [
+      0.0,
+      500.0
+    ],
+    "tool_wear_min": [
+      0.0,
+      1000.0
+    ]
+  },
+  "engineered_features": [
+    "temp_diff_k",
+    "power_w",
+    "strain_minnm"
+  ]
+}

@@ -8,5 +8,5 @@ data/raw/*
 data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
-models/*.joblib
+!data/processed/split.json
 .DS_Store

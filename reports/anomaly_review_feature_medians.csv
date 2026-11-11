@@ -1,0 +1,6 @@
+,normal_not_flagged,false_alarms,failures_caught,failures_missed
+air_temperature_k,300.1,300.1,300.7,301.7
+process_temperature_k,310.0,309.9,310.2,310.25
+rotational_speed_rpm,1507.0,1724.0,1334.5,1369.0
+torque_nm,39.7,27.9,59.6,51.95
+tool_wear_min,109.0,112.0,176.0,156.0

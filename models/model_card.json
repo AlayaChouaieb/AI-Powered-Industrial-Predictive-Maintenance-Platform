@@ -1,0 +1,60 @@
+{
+  "model_version": "0.1.0",
+  "classifier": "rf-engineered-leaf1",
+  "anomaly_detector": "isolation-forest-engineered",
+  "trained_on": "train split only (60%); validation used for model/threshold selection; test split untouched",
+  "dataset_file_sha256": "59db4f1d9c34c58136d89e5a006ec190dcea19e9dbea74f6b3b0c6f22a44d183",
+  "dataset_content_sha256": "6b951bfedd1c42a767117b2bc326e4e3fceac080c7c8a9d87655a46d3dc45a63",
+  "seed": 42,
+  "sklearn": "1.9.1",
+  "python": "3.12.3",
+  "classifier_cv_summary": {
+    "cv_macro_f1_failure_classes": 0.6497,
+    "cv_macro_pr_auc_failure_classes": 0.7143,
+    "cv_binary_failure_pr_auc": 0.8973,
+    "cv_binary_failure_roc_auc": 0.9771,
+    "cv_binary_failure_precision": 0.9623,
+    "cv_binary_failure_recall": 0.7537,
+    "cv_binary_failure_f1": 0.8453,
+    "cv_accuracy_for_reference": 0.9897
+  },
+  "classifier_val_summary": {
+    "val_macro_f1_failure_classes": 0.6713,
+    "val_macro_pr_auc_failure_classes": 0.7153,
+    "val_binary_failure_pr_auc": 0.8683,
+    "val_binary_failure_roc_auc": 0.9649,
+    "val_binary_failure_precision": 0.9792,
+    "val_binary_failure_recall": 0.6912,
+    "val_binary_failure_f1": 0.8103,
+    "val_accuracy_for_reference": 0.989
+  },
+  "anomaly_val_summary": {
+    "roc_auc": 0.8363,
+    "pr_auc": 0.1887,
+    "threshold": 0.5662,
+    "false_alarm_rate": 0.0502,
+    "recall_any_failure": 0.4118,
+    "precision": 0.224,
+    "flagged": 125.0,
+    "recall_TWF": 0.5,
+    "recall_HDF": 0.2381,
+    "recall_PWF": 0.6875,
+    "recall_OSF": 0.25,
+    "recall_other": 0.5714
+  },
+  "supported_fault_classes": [
+    "HDF",
+    "PWF",
+    "OSF"
+  ],
+  "unsupported_fault_classes": {
+    "TWF": "no usable signal beyond high tool wear (CV recall 0)",
+    "other": "too few and heterogeneous examples (19 in train)"
+  },
+  "limitations": [
+    "synthetic data",
+    "failure labels (HDF/PWF/OSF) are deterministic rules of the inputs",
+    "very few examples of TWF/other",
+    "no real machine IDs or time ordering"
+  ]
+}

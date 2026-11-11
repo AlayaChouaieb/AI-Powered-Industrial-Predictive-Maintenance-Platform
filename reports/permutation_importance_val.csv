@@ -1,0 +1,7 @@
+feature,mean_drop_macro_f1,std
+torque_nm,0.4022,0.0172
+tool_wear_min,0.2727,0.0354
+rotational_speed_rpm,0.269,0.0198
+air_temperature_k,0.225,0.0257
+process_temperature_k,0.1452,0.0143
+product_type,0.0408,0.0171

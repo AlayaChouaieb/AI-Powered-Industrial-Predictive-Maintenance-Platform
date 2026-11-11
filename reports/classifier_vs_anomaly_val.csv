@@ -1,0 +1,3 @@
+,classifier_any_failure,anomaly_detector
+precision,0.98,0.224
+recall,0.735,0.412

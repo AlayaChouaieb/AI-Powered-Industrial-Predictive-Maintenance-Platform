@@ -1,0 +1,54 @@
+=== Hand-built scenarios (NOT dataset rows) ===
+                                             scenario   status  failure_risk predicted_class  anomaly_score  is_anomaly
+                           1 typical normal operation  healthy         0.003            none          0.439       False
+2 low speed + small temp difference (HDF rule region) critical         0.340            none          0.521       False
+                       3 high power (PWF rule region) critical         0.783             PWF          0.560       False
+    4 high wear x torque, L product (OSF rule region) critical         0.870             OSF          0.542       False
+                           5 very high tool wear only  healthy         0.037            none          0.518       False
+
+=== Example API-style response for scenario 2 ===
+{
+  "anomaly": {
+    "score": 0.5207062245162233,
+    "threshold": 0.5661647287023118,
+    "is_anomaly": false
+  },
+  "failure_risk": 0.33999999999999997,
+  "fault": {
+    "predicted_class": "none",
+    "probabilities": {
+      "none": 0.66,
+      "TWF": 0.0,
+      "HDF": 0.3233333333333333,
+      "PWF": 0.0,
+      "OSF": 0.0,
+      "other": 0.016666666666666666
+    },
+    "most_likely_failure_mode": "HDF",
+    "supported_modes": [
+      "HDF",
+      "PWF",
+      "OSF"
+    ]
+  },
+  "status": "critical",
+  "top_factors": [],
+  "model_version": "0.1.0",
+  "note": "Decision-support signal from a model trained on synthetic data; not a failure guarantee."
+}
+
+=== Validation rejects malformed payload ===
+rejected: torque_nm=-3 outside valid range [0.0, 500.0]
+
+=== Replay of validation rows with SIMULATED machine ids (AI4I has none) ===
+machine_id true_label   status  failure_risk pred_class  anomaly
+     M-001       none  healthy         0.000       none    False
+     M-002       none  healthy         0.000       none    False
+     M-003       none  healthy         0.000       none    False
+     M-004       none  warning         0.000       none     True
+     M-001        OSF critical         0.937        OSF    False
+     M-002        PWF critical         0.630        PWF    False
+     M-003        PWF critical         0.323       none    False
+     M-004        OSF critical         0.897        OSF     True
+     M-001        OSF critical         0.867        OSF     True
+     M-002        PWF critical         0.523        PWF     True

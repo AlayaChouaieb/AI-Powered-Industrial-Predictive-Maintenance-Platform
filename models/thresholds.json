@@ -1,0 +1,15 @@
+{
+  "anomaly": {
+    "threshold": 0.5661647287023118,
+    "far_budget": 0.05,
+    "feature_set": "engineered",
+    "score_definition": "-IsolationForest.score_samples (higher = more unusual)",
+    "threshold_rule": "95th percentile of validation NORMAL rows' scores"
+  },
+  "classifier": {
+    "p_warn": 0.09,
+    "p_crit": 0.2767,
+    "p_fail_definition": "1 - P(none)",
+    "rule": "p_crit = lowest risk threshold with train-OOF precision >= 0.90; p_warn = lowest risk threshold with train-OOF precision >= 0.60 (first attempt used recall>=0.85, which collapsed onto p_crit)"
+  }
+}

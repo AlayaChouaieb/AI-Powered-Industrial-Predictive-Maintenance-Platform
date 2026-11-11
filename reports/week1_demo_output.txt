@@ -1,0 +1,11 @@
+machine_id true_label   status  failure_risk pred_class  anomaly
+     M-001       none  healthy         0.000       none    False
+     M-002       none  healthy         0.000       none    False
+     M-003       none  healthy         0.000       none    False
+     M-004       none  warning         0.000       none     True
+     M-001        OSF critical         0.937        OSF    False
+     M-002        PWF critical         0.630        PWF    False
+     M-003        PWF critical         0.323       none    False
+     M-004        OSF critical         0.897        OSF     True
+     M-001        OSF critical         0.867        OSF     True
+     M-002        PWF critical         0.523        PWF     True

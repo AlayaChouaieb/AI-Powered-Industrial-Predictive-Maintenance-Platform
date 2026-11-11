@@ -1,6 +1,6 @@
 # 03 - Data Schema and Prediction Outputs
 
-Based on UCI AI4I 2020. Items marked (Day 2) are confirmed after data inspection.
+Based on UCI AI4I 2020. **Updated after Week 1** (Days 2-5 decisions are final unless noted).
 
 ## Source columns -> API fields
 | AI4I column | API field | Type / unit | Available at prediction time |
@@ -29,34 +29,36 @@ AI4I has no timestamps or true machine IDs. The simulator/CSV replay assigns `ma
   "tool_wear_min": 108
 }
 ```
-Validation (initial; tighten on Day 2 from observed ranges): required fields, `product_type` in {L,M,H}, temperatures 250-400 K, speed > 0, torque >= 0, tool wear >= 0, ISO-8601 timestamp.
+Validation (implemented in `ml/src/pm_ml/predict.py`, ranges in `models/feature_config.json`): all six fields required, `product_type` in {L,M,H}, air 250-400 K, process 250-450 K, speed 1-10,000 rpm, torque 0-500 Nm, tool wear 0-1000 min, finite numbers only. `machine_id` and ISO-8601 `timestamp` are validated by the API layer (Day 6-7).
 
-## Prediction output
+## Prediction output (as returned by `Predictor.predict`)
 ```json
 {
-  "measurement_id": 1234,
-  "anomaly": { "score": 0.62, "threshold": 0.55, "is_anomaly": true },
+  "anomaly": { "score": 0.521, "threshold": 0.566, "is_anomaly": false },
+  "failure_risk": 0.34,
   "fault": {
-    "predicted_class": "HDF",
-    "probabilities": { "none": 0.18, "TWF": 0.02, "HDF": 0.71, "PWF": 0.05, "OSF": 0.04 }
+    "predicted_class": "none",
+    "probabilities": { "none": 0.66, "TWF": 0.0, "HDF": 0.323, "PWF": 0.0, "OSF": 0.0, "other": 0.017 },
+    "most_likely_failure_mode": "HDF",
+    "supported_modes": ["HDF", "PWF", "OSF"]
   },
-  "top_factors": [
-    { "feature": "temperature_difference", "direction": "high", "note": "correlated with this prediction, not causal proof" }
-  ],
-  "status": "warning",
-  "model_version": "0.1.0"
+  "status": "critical",
+  "top_factors": [],
+  "model_version": "0.1.0",
+  "note": "Decision-support signal from a model trained on synthetic data; not a failure guarantee."
 }
 ```
-- **Fault classes (proposed, Day 2/4):** `none`, `TWF`, `HDF`, `PWF`, `OSF`. RNF (random failures) is essentially unpredictable and very rare; decide on exclusion/merge on Day 2. AI4I rows can carry several failure modes; decide single-label vs multi-label on Day 2.
-- **Fault classifier may be absent** if the Day 5 gate fails; the API field then becomes null.
-- **Anomaly score:** higher = more unusual; threshold chosen on validation data (Day 5).
+- `failure_risk` = 1 - P(none). **Show this plus `most_likely_failure_mode`**; `predicted_class` is the arg-max and can be `none` while status is `critical`.
+- **Classes (final):** `none`, `TWF`, `HDF`, `PWF`, `OSF`, `other`. Only **HDF, PWF, OSF** are supported predictions; TWF and `other` probabilities are returned but must not be presented as reliable (Week 1 report, section 6).
+- `top_factors` is empty until Day 13 (local explanations).
+- **Anomaly score:** higher = more unusual; threshold = 95th percentile of validation normal scores.
 
-## Health status and alert rules (initial; tuned Day 5/9)
+## Health status rules (provisional, `models/thresholds.json`)
 | Status | Rule |
 |---|---|
-| healthy | not anomalous and no high-risk class |
-| warning | anomaly score >= threshold, or failure-class probability >= p_warn |
-| critical | anomaly AND failure-class probability >= p_crit |
+| critical | `failure_risk` >= 0.2767 |
+| warning | `failure_risk` >= 0.09, or anomaly score >= 0.566 |
+| healthy | otherwise |
 
-An alert is created on transition into warning/critical; a cooldown prevents new alerts for the same machine and status while one is open.
+Thresholds are derived on training out-of-fold predictions (and the anomaly threshold on validation); see `docs/06-week1-report.md`, section 5. An alert is created on transition into warning/critical; a cooldown prevents new alerts for the same machine and status while one is open (Day 9).
 Alert states: `open` -> `acknowledged` -> `resolved`, with an optional `note`.
