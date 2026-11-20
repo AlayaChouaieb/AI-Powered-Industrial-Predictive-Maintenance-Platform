@@ -2,7 +2,7 @@
 
 A 3-week prototype web platform that ingests machine measurements, runs **anomaly detection** and **fault classification**, stores results, and shows alerts to a maintenance user.
 
-> **Status:** Week 1 complete (Days 1-5): data audit, preprocessing + fixed split, fault classifier, anomaly detector, frozen model artifacts. Week 2 (backend) is next.
+> **Status:** Week 1 ML work completed; Weeks 2–4 starter scaffolding added (API, database, dashboard, Compose, seed script). Model inference, alert workflow, migrations, charts, CI and full end-to-end validation remain in progress.
 > **Dataset:** UCI AI4I 2020 (synthetic; results do **not** prove performance on real factory equipment).
 
 ## Documentation
@@ -50,3 +50,23 @@ python scripts/week1_demo.py                   # score sample measurements
 - Scores are decision-support signals, not failure guarantees.
 - Explanations show correlated features, not causal proof.
 - No Remaining Useful Life (RUL) estimation.
+
+
+## Weeks 1–4 starter: local Cloud prototype
+
+Requirements: Docker Desktop or Python 3.12.
+
+```bash
+docker compose up --build
+```
+
+- API: http://localhost:8000
+- API docs: http://localhost:8000/docs
+- Dashboard: http://localhost:8080
+
+Seed demo data (after services start):
+```bash
+python scripts/seed_demo.py
+```
+
+Current backend stores telemetry and reports that ML inference is not integrated. The UI is a starter dashboard, not a finished predictive-maintenance product. See [Weeks 1–4 checklist](docs/11-week1-4-deliverables.md).
