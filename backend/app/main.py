@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException\nfrom fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from sqlalchemy import select, desc
 from sqlalchemy.exc import IntegrityError
@@ -8,7 +8,7 @@ from .schemas import MachineCreate, MachineRead, MeasurementCreate, MeasurementR
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="MotorGuard AI API", version="0.1.0", description="Industrial predictive-maintenance prototype API")
+app = FastAPI(title="MotorGuard AI API", version="0.1.0", description="Industrial predictive-maintenance prototype API")\napp.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 @app.get("/health", response_model=HealthResponse)
 def health():
